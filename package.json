@@ -1,0 +1,30 @@
+{
+  "name": "tiny-koa",
+  "version": "1.0.0",
+  "description": "node http layout",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lgybetter/tiny-koa.git"
+  },
+  "keywords": [
+    "node",
+    "http",
+    "server"
+  ],
+  "author": "lgybetter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lgybetter/tiny-koa/issues"
+  },
+  "homepage": "https://github.com/lgybetter/tiny-koa#readme",
+  "devDependencies": {
+    "@types/node": "^10.0.0",
+    "nodemon": "^1.17.3",
+    "ts-node": "^6.0.1",
+    "typescript": "^2.8.3"
+  }
+}
