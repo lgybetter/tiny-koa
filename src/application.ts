@@ -9,9 +9,10 @@ class Applicaion {
   private context: Context
   private request: Request
   private response: Response
-
+  private middlewares: Function[]
   constructor() {
     this.callbackFunc
+    this.middlewares = []
   }
 
   createContext(req: IncomingMessage, res: ServerResponse) {
@@ -24,13 +25,32 @@ class Applicaion {
   listen(...args: any[]) {
     const server = http.createServer((req, res) => {
       const ctx = this.createContext(req, res)
-      this.callbackFunc(ctx).then(() => this.responseBody(ctx))
+      return this.compose()(ctx).then(() => this.responseBody(ctx))
     })
     server.listen(...args)
   }
 
-  use(func: Function) {
-    this.callbackFunc = func
+  use(middleware: Function) {
+    this.middlewares.push(middleware)
+  }
+
+  compose() {
+    return async (ctx: Context) => {
+      function createNext(middleware: Function, preNext: Function) {
+        return async () => {
+          await middleware(ctx, preNext)
+        }
+      }
+      const len = this.middlewares.length
+      let next = async () => {
+        return Promise.resolve()
+      }
+      for (let i = len - 1; i >= 0; i--) {
+        let curMiddleware = this.middlewares[i]
+        next = createNext(curMiddleware, next)
+      }
+      await next()
+    }
   }
 
   responseBody(ctx: Context) {
