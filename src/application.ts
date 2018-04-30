@@ -3,14 +3,17 @@ import { IncomingMessage, ServerResponse } from 'http'
 import Request from './request'
 import Response from './response'
 import Context from './context'
+import { error } from 'util';
+import * as EventEmitter from 'events'
 
-class Applicaion {
+class Applicaion extends EventEmitter {
   private callbackFunc: Function
   private context: Context
   private request: Request
   private response: Response
   private middlewares: Function[]
   constructor() {
+    super()
     this.callbackFunc
     this.middlewares = []
   }
@@ -25,7 +28,9 @@ class Applicaion {
   listen(...args: any[]) {
     const server = http.createServer((req, res) => {
       const ctx = this.createContext(req, res)
-      return this.compose()(ctx).then(() => this.responseBody(ctx))
+      return this.compose()(ctx).then(() => this.responseBody(ctx)).catch(error => {
+        this.onError(error, ctx)
+      })
     })
     server.listen(...args)
   }
@@ -61,6 +66,13 @@ class Applicaion {
     else if (typeof content === 'object') {
       ctx.res.end(JSON.stringify(content))
     }
+  }
+
+  onError (error: Error, ctx: Context) {
+    ctx.status = 500
+    const message = error.message || 'Internal error'
+    ctx.res.end(message)
+    this.emit('error', error)
   }
 }
 

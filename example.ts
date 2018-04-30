@@ -23,6 +23,12 @@ app.use(async (ctx: Context) => {
   console.log('3')
   responseData.sex = 'male'
 })
+
+app.on('error', (error: Error) => {
+  console.log('Error stack:' + error.stack)
+  console.log('Error message:' + error.message)
+})
+
 app.listen(3000, 'localhost', () => {
   console.log('running at http://localhost:3000')
 })

@@ -2,9 +2,11 @@
   "name": "tiny-koa",
   "version": "1.0.0",
   "description": "node http layout",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "npm run test"
+    "build": "tsc .\\src\\index.ts --outDir \"./dist\"",
+    "dev": "ts-node ./example.ts",
+    "test": "node ./example.js"
   },
   "repository": {
     "type": "git",

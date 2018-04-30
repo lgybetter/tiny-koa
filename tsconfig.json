@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "outDir": "build",
+    "target": "ES2015",
+    "outDir": "dist",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "pretty": true,
-    "noImplicitAny": true,
-    "sourceMap": true,
+    "noImplicitAny": false,
+    "sourceMap": false,
     "allowUnreachableCode": true,
     "allowUnusedLabels": true,
     "noImplicitReturns": true,
@@ -17,7 +17,8 @@
     "allowSyntheticDefaultImports": true,
     "suppressExcessPropertyErrors": true,
     "suppressImplicitAnyIndexErrors": true,
-    "allowJs": true
+    "allowJs": true,
+    "removeComments": true
   },
   "compileOnSave": true,
   "exclude": [
@@ -32,5 +33,6 @@
     "./**/*.js",
     "./**/*.ts",
     "./**/*.tsx"
-  ]
+  ],
+  "declaration": true
 }
